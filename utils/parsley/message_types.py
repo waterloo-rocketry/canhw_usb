@@ -91,8 +91,8 @@ valve_states_str = {v: k for k, v in valve_states_hex.items()}
 
 # ARM_CMD/STATUS STATES
 arm_states_hex = {
-    "ALT_DISARMED" : 0,
-    "ALT_ARMED" : 1
+    "DISARMED" : 0,
+    "ARMED" : 1
 }
 arm_states_str = dict([[v,k] for k,v in arm_states_hex.items()])
 

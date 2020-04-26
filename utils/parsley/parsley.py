@@ -40,10 +40,10 @@ def parse_arm_status(msg_data):
     arm_state = mt.arm_states_str[msg_data[3] >> 4]
     alt_number = msg_data[3] & 0x0F
     v_drogue = msg_data[4] << 8 | msg_data[5]
-    v_main = msg_data[5] << 8 | msg_data[7]
+    v_main = msg_data[6] << 8 | msg_data[7]
 
     parsed_str = ['t=', str(timestamp) + 'ms', 'ALTIMETER: ' + str(alt_number), \
-            'COMAND: ' + arm_state, 'V DROGUE: ' + str(v_drogue) + 'mV', \
+            'STATUS: ' + arm_state, 'V DROGUE: ' + str(v_drogue) + 'mV', \
             'V MAIN: ' + str(v_main) + 'mV']
     return parsed_str
 
