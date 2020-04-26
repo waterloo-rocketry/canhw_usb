@@ -17,6 +17,36 @@ def parse_valve_cmd(msg_data):
     parsed_str = ['t=', str(timestamp) + 'ms', valve_state]
     return parsed_str
 
+def parse_valve_status(msg_data):
+    timestamp = msg_data[0] << 16 | msg_data[1] << 8 | msg_data[2]
+    valve_state = mt.valve_states_str[msg_data[3]]
+    req_valve_state = mt.valve_states_str[msg_data[4]]
+
+    parsed_str = ['t=', str(timestamp) + 'ms', 'REQ: ' + req_valve_state, \
+            'ACTUAL: ' + valve_state]
+    return parsed_str
+
+def parse_arm_cmd(msg_data):
+    timestamp = msg_data[0] << 16 | msg_data[1] << 8 | msg_data[2]
+    arm_state = mt.arm_states_str[msg_data[3] >> 4]
+    alt_number = msg_data[3] & 0x0F
+
+    parsed_str = ['t=', str(timestamp) + 'ms', 'ALTIMETER: ' + str(alt_number), \
+            'COMAND: ' + arm_state]
+    return parsed_str
+
+def parse_arm_status(msg_data):
+    timestamp = msg_data[0] << 16 | msg_data[1] << 8 | msg_data[2]
+    arm_state = mt.arm_states_str[msg_data[3] >> 4]
+    alt_number = msg_data[3] & 0x0F
+    v_drogue = msg_data[4] << 8 | msg_data[5]
+    v_main = msg_data[5] << 8 | msg_data[7]
+
+    parsed_str = ['t=', str(timestamp) + 'ms', 'ALTIMETER: ' + str(alt_number), \
+            'COMAND: ' + arm_state, 'V DROGUE: ' + str(v_drogue) + 'mV', \
+            'V MAIN: ' + str(v_main) + 'mV']
+    return parsed_str
+
 def parse_debug_msg(msg_data):
     timestamp = msg_data[0] << 16 | msg_data[1] << 8 | msg_data[2]
     debug_level = (msg_data[3] & 0xf0) >> 4
@@ -28,16 +58,6 @@ def parse_debug_msg(msg_data):
 def parse_debug_printf(msg_data):
     ascii_str = [''.join(chr(e) for e in msg_data)]
     return ascii_str
-
-def parse_valve_status(msg_data):
-    timestamp = msg_data[0] << 16 | msg_data[1] << 8 | msg_data[2]
-    valve_state = mt.valve_states_str[msg_data[3]]
-    req_valve_state = mt.valve_states_str[msg_data[4]]
-
-    parsed_str = ['t=', str(timestamp) + 'ms', 'REQ: ' + req_valve_state, \
-            'ACTUAL: ' + valve_state]
-    return parsed_str
-
 
 def parse_board_status(msg_data):
     timestamp = msg_data[0] << 16 | msg_data[1] << 8 | msg_data[2]
@@ -182,6 +202,9 @@ def parse_line(args, line):
     elif msg_type == 'VENT_VALVE_CMD' or msg_type == 'INJ_VALVE_CMD':
         parsed_data.extend(parse_valve_cmd(msg_data))
 
+    elif msg_type == 'ALT_ARM_CMD':
+        parsed_data.extend(parse_arm_cmd(msg_data))
+
     elif msg_type == 'DEBUG_MSG':
         parsed_data.extend(parse_debug_msg(msg_data))
 
@@ -190,6 +213,9 @@ def parse_line(args, line):
 
     elif msg_type == 'VENT_VALVE_STATUS' or msg_type == 'INJ_VALVE_STATUS':
         parsed_data.extend(parse_valve_status(msg_data))
+
+    elif msg_type == 'ALT_ARM_STATUS':
+        parsed_data.extend(parse_arm_status(msg_data))
 
     elif msg_type == 'GENERAL_BOARD_STATUS':
         parsed_data.extend(parse_board_status(msg_data))
