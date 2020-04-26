@@ -103,6 +103,15 @@ def parse_sensor_analog(msg_data):
     return parsed_str
 
 
+def parse_sensor_altitude(msg_data):
+    timestamp = msg_data[0] << 16 | msg_data[1] << 8 | msg_data[2]
+    altitude = msg_data[3] << 24 | msg_data[4] << 16 | msg_data[5] << 8 | msg_data[6]
+    
+    parsed_str = ['t=', str(timestamp) + 'ms', 'ALTITUDE: ' + str(altitude) + 'ft']
+
+    return parsed_str
+
+
 def parse_gps_timestamp(msg_data):
     timestamp = msg_data[0] << 16 | msg_data[1] << 8 | msg_data[2]
     utc_hours = msg_data[3]
@@ -226,6 +235,9 @@ def parse_line(args, line):
         # not supported yet
         print(header + ' ' + line)
 
+    elif msg_type == 'SENSOR_ALTITUDE':
+        parsed_data.extend(parse_sensor_altitude(msg_data))
+    
     elif msg_type == 'SENSOR_ANALOG':
         parsed_data.extend(parse_sensor_analog(msg_data))
 
