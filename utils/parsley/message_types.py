@@ -34,11 +34,11 @@ msg_type_hex = {
     "INJ_VALVE_STATUS" : 0x4C0,
     "GENERAL_BOARD_STATUS" : 0x520,
 
+    "SENSOR_ALTITUDE" : 0x540,
     "SENSOR_ACC" : 0x580,
     "SENSOR_GYRO" : 0x5E0,
     "SENSOR_MAG" : 0x640,
     "SENSOR_ANALOG" : 0x6A0,
-    "SENSOR_ALTITUDE" : 0x6C0,
 
     "GPS_TIMESTAMP" : 0x6C0,
     "GPS_LATITUDE" : 0x6E0,

@@ -105,7 +105,10 @@ def parse_sensor_analog(msg_data):
 
 def parse_sensor_altitude(msg_data):
     timestamp = msg_data[0] << 16 | msg_data[1] << 8 | msg_data[2]
-    altitude = msg_data[3] << 24 | msg_data[4] << 16 | msg_data[5] << 8 | msg_data[6]
+    altitude = int(msg_data[3] << 24 | msg_data[4] << 16 | msg_data[5] << 8 | msg_data[6])
+
+    if altitude & 0x80000000:       #check if the value is negative
+        altitude -= 0x0100000000    #if it is negative subtract what we need to undo 2's complement
     
     parsed_str = ['t=', str(timestamp) + 'ms', 'ALTITUDE: ' + str(altitude) + 'ft']
 
