@@ -109,7 +109,7 @@ def parse_sensor_altitude(msg_data):
 
     if altitude & 0x80000000:       #check if the value is negative
         altitude -= 0x0100000000    #if it is negative subtract what we need to undo 2's complement
-    
+
     parsed_str = ['t=', str(timestamp) + 'ms', 'ALTITUDE: ' + str(altitude) + 'ft']
 
     return parsed_str
@@ -240,7 +240,7 @@ def parse_line(args, line):
 
     elif msg_type == 'SENSOR_ALTITUDE':
         parsed_data.extend(parse_sensor_altitude(msg_data))
-    
+
     elif msg_type == 'SENSOR_ANALOG':
         parsed_data.extend(parse_sensor_analog(msg_data))
 
@@ -255,7 +255,7 @@ def parse_line(args, line):
 
     elif msg_type == 'GPS_ALTITUDE':
         parsed_data.extend(parse_gps_altitude(msg_data))
-   
+
     elif msg_type == 'GPS_INFO':
         parsed_data.extend(parse_gps_info(msg_data))
 
@@ -290,7 +290,7 @@ if __name__ == '__main__':
         if not line:
             break
 
-        # treat repeated messages in the same way as USB 
+        # treat repeated messages in the same way as USB
         if line.strip() == '.':
             print('.')
             continue

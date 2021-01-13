@@ -33,8 +33,9 @@ msg_type_hex = {
     "VENT_VALVE_STATUS" : 0x460,
     "INJ_VALVE_STATUS" : 0x4C0,
     "GENERAL_BOARD_STATUS" : 0x520,
+    "RECOVERY_STATUS" : 0x540,
 
-    "SENSOR_ALTITUDE" : 0x540,
+    "SENSOR_ALTITUDE" : 0x560,
     "SENSOR_ACC" : 0x580,
     "SENSOR_GYRO" : 0x5E0,
     "SENSOR_MAG" : 0x640,
@@ -139,7 +140,8 @@ sensor_id_hex = {
     "SENSOR_VENT_BATT" : 5,
     "SENSOR_INJ_BATT" : 6,
     "SENSOR_ARM_BATT_1" : 7,
-    "SENSOR_ARM_BATT_2" : 8
+    "SENSOR_ARM_BATT_2" : 8,
+    "SENSOR_BATT_CURR" : 9,
 }
 sensor_id_str = {v: k for k, v in sensor_id_hex.items()}
 
